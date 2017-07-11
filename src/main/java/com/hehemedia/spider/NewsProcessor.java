@@ -18,12 +18,14 @@ public class NewsProcessor implements PageProcessor {
     public void process(Page page) {
         if (page.getUrl().regex("http://news.baidu.com/").match()) {
             //列表页
-            page.addTargetRequests(page.getHtml().xpath("//ul[@class='ulist focuslistnews']/").links().all());
+            page.addTargetRequests(page.getHtml().xpath("//ul[@class='ulist focuslistnews']/").links().regex("http://china.huanqiu.com/article/2017-07/\\d\\d\\d\\d\\d\\d\\d\\d.html").all());
         } else {
             //详情页//
             page.putField("title", page.getHtml().xpath("//div[@class='conText']/h1/text()|//*[@id=\"artical_topic\"]/text()|//div[@class='bg-content']/h1/text()|//div[@class='J-title_detail title_detail']/h1/span/text()|*[@id=\"chan_newsTitle\"]/text()|//div[@class='newscontent']/h1/text()"));
-//            page.putField("content", page.getHtml().xpath("//div[@id='text']//div[@class='text16']"));
-            page.putField("date", page.getHtml().xpath("//strong[@id=\"pubtime_baidu\"]/text()"));
+//            page.putField("content", page.getHtml().xpath("//div[@id='text']/p/text()"));
+            page.putField("date", page.getHtml().xpath("//strong[@id='pubtime_baidu']/text()"));
+            page.putField("source", page.getHtml().xpath("//strong[@id='source_baidu']/a/text()"));
+            page.putField("url", page.getUrl());
         }
 
     }
