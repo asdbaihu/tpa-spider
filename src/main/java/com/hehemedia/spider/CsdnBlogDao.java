@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 public class CsdnBlogDao {
-	private Connection conn = null;
+    private Connection conn = null;
     private Statement stmt = null;
 
     public CsdnBlogDao() {
@@ -36,6 +36,22 @@ public class CsdnBlogDao {
             ps.setInt(6, csdnBlog.getView());
             ps.setInt(7, csdnBlog.getComments());
             ps.setInt(8, csdnBlog.getCopyright());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public int addNews(NewsInfo newsInfo) {
+        try {
+            String sql = "INSERT INTO `shop`.`news` (`title`, `date`, `url`, `source`) VALUES (?, ?, ?, ?);";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, newsInfo.getTitle());
+            ps.setString(2, newsInfo.getDate().toString());
+            ps.setString(3, newsInfo.getUrl());
+            ps.setString(4, newsInfo.getSource());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
