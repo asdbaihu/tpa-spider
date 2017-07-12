@@ -6,7 +6,7 @@
 <mapper namespace="com.hehemedia.spider.mapper.NewsInfoMapper">
 
     <insert id="saveNewsInfo" parameterType="com.hehemedia.spider.pojo.NewsInfo" useGeneratedKeys="true" keyProperty="studId">
-          INSERT INTO news(title,newsTime,url,soruce) VALUES(#{title},#{newsTime},#{url},#{soruce})
+          INSERT INTO news(title,newsTime,url,source) VALUES(#{title},#{newsTime},#{url},#{source})
     </insert>
 
 

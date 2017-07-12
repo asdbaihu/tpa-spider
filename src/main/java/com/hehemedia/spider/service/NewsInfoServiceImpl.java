@@ -16,7 +16,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
     private NewsInfoMapper newsInfoMapper;
 
     public int save(NewsInfo newsInfo) {
-        System.out.println("abcdefg");
-        return newsInfoMapper.save(newsInfo);
+        return newsInfoMapper.saveNewsInfo(newsInfo);
     }
 }

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 public interface NewsInfoMapper {
 
-    int save(NewsInfo newsInfo);
+    int saveNewsInfo(NewsInfo newsInfo);
 
 }

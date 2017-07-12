@@ -3,6 +3,8 @@ package com.hehemedia.spider.processor;
 import com.hehemedia.spider.pojo.NewsInfo;
 import com.hehemedia.spider.service.NewsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -17,8 +19,15 @@ import java.text.SimpleDateFormat;
  */
 public class NewsProcessor implements PageProcessor {
 
-    @Autowired
+
+    private ApplicationContext context;
+
+    public NewsProcessor() {
+        context = new ClassPathXmlApplicationContext("classpath:config/applicationContext.xml");
+    }
+
     private NewsInfoService newsInfoService;
+
 
     private Site site = Site.me().setRetryTimes(3);
     private Page page;
@@ -45,7 +54,8 @@ public class NewsProcessor implements PageProcessor {
                 newsInfo.setSource(page.getHtml().xpath("//strong[@id='source_baidu']/a/text()").toString());
                 newsInfo.setUrl(page.getUrl().toString());
                 //持久化
-//                newsInfoService.save(newsInfo);
+                newsInfoService = (NewsInfoService) context.getBean("newsInfoServiceImpl");
+                newsInfoService.save(newsInfo);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -62,7 +72,7 @@ public class NewsProcessor implements PageProcessor {
         Spider.create(new NewsProcessor())
                 .addUrl("http://news.baidu.com/")
 //                .addPipeline(new JsonFilePipeline("E:\\webmagic\\"))//保存抓取结果
-                .thread(1)
+                .thread(5)
                 .run();
     }
 }

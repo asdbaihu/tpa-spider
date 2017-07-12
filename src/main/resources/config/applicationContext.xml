@@ -18,6 +18,9 @@
     <!--获取数据库配置文件-->
     <context:property-placeholder location="classpath:config/db.properties"/>
 
+    <!--扫描service-->
+    <context:component-scan base-package="com.hehemedia.spider.service"/>
+
     <!--设置数据源c3p0-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${jdbc.driver}"/>
@@ -33,7 +36,7 @@
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:config/SqlMapConfig.xml"/>
         <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations" value="classpath*:/mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
     </bean>
 
     <!--自动扫描mapper接口，并注入sqlsession-->
@@ -42,8 +45,7 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSession"/>
     </bean>
 
-    <!--扫描service-->
-    <context:component-scan base-package="com.hehemedia.spider.service"/>
+
 
     <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
